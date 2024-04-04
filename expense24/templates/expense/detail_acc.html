@@ -1,0 +1,104 @@
+{% extends "../base.html" %}
+{% load static %} 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% comment %}
+    <link rel="icon" type="image/x-icon" href="{% static '../assets/img/favicon/favicon.ico' %}" />
+    {% endcomment %}
+    <link rel="icon" type="image/x-icon" href="{% static '../assets/img/favicon/favicon.ico' %}" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="{% static '/assets/vendor/fonts/boxicons.css' %}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static '/assets/vendor/css/core.css'%}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static '/assets/vendor/css/theme-default.css'%}" class="template-customizer-theme-css" />
+
+    <link rel="stylesheet" href="{% static '/assets/vendor/css/demo.css'%}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{% static '/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css'%}" />
+    <link rel="stylesheet" href="{% static '/assets/vendor/libs/apex-charts/apex-charts.css'%}" />
+
+    <!-- Helpers -->
+    <script src="{% static '/assets/vendor/js/helpers.js'%}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    {% comment %} <script src="{% static '/assets/js/config.js'%}"></script> {% endcomment %}
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+
+<body>
+    {% block content %}
+    <div class="card text-center">
+        <h5 class="card-header"><u><strong> Account Chart</strong></u></h5>
+        <div>
+            <!-- Adjust canvas size as needed -->
+            <canvas id="bar_chart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- JavaScript for rendering the chart -->
+    <script>
+        // Get canvas context
+        const ctx = document.getElementById("bar_chart").getContext("2d");
+
+        {% comment %} console.log("Script for rendering the chart is executed."); {% endcomment %}
+
+        // Initialize Chart.js chart
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: {{ labels | safe }},
+                datasets: [{
+                    label: "Income",
+                    data: {{ data | safe }},
+                    backgroundColor: [
+                        "rgba(75, 192, 192, 0.2)",
+                        "rgba(255, 99, 132, 0.2)",
+                        "rgba(255, 255, 0, 0.2)"
+                    ],
+                    borderColor: [
+                        "rgba(75, 192, 192, 1)",
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(255, 255, 0, 1)"
+                    ],
+                    borderWidth: 1,
+                    barThickness: 50 // Adjust the bar thickness as needed
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "top"
+                    },
+                    datalabels: {
+                        display: true
+                    }
+                }
+            }
+        });
+    </script>
+
+{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends '../base.html' %} {% load crispy_forms_tags %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense List</title>
+  </head>
+  <body>
+    {% block content %}
+    
+
+    
+    <div class="card">
+      <h5 class="card-header">
+        {{ user.get_username }}!!! &nbsp; HERE IS YOUR EXPENSE LIST
+      </h5>
+
+      <h5 class="card-header">
+        <a href="{% url 'create' %}" class="btn btn-primary">Create</a>
+      </h5>
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+             
+              <th>Category</th>
+              <th>SubCategory</th>
+              <th>Amount</th>
+              <th>ExpDateTime</th>
+              <th>Transaction</th>
+              <th>Description</th>
+              
+              <th>Status</th>
+              <th>Goal</th>
+              <th class='text-center'>Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            {% for expense in list_expense %}
+            <tr>
+            
+              <td>{{ expense.category }}</td>
+              <td>{{ expense.subCategory }}</td>
+              <td>{{ expense.amount }}</td>
+              <td>{{ expense.expDateTime }}</td>
+              <td>{{ expense.transaction_type }}</td>
+              <td>{{ expense.description }}</td>
+              <td>
+                <span class="badge bg-label-primary me-1"
+                  >{{ expense.status }}</span
+                >
+              </td>
+              <td>{{expense.goal__goalname}}</td>
+
+             
+              <td>
+                <div class="dropdown">
+                    {% comment %} <a class="dropdown-item" href="{% url 'update_exp' expense.id %}"> {% endcomment %}
+                      <a href="{% url 'update_expense' expense.id %}" class="btn btn-primary">
+                        <i class="bx bx-edit-alt me-1"></i> Edit</a> 
+                    
+                      {% comment %} <a class="dropdown-item" href="{% url 'delete_exp' expense.id %}">  {% endcomment %}
+                         <a href="{% url 'delete_expense' expense.id %}" class="btn btn-primary">
+                        <i class="bx bx-trash me-1"></i> Delete</a> 
+                      
+                       {% comment %} <a class="dropdown-item" href="{% url 'exp_detail' expense.id %}">  {% endcomment %}
+                         <a href="{% url 'expense_detail' expense.id %}" class="btn btn-primary">
+                      <i class="bx bx-select me-1"></i> Detail</a> 
+
+                      
+                    
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endblock content %}
+  </body>
+</html>
